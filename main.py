@@ -5,7 +5,7 @@ from discord.ext import commands
 
 # CONFIGURATION
 TOKEN = (
-    "MTUxNzYyMTY4NTc0NTA5MDYzMw.GW_Ugh.wp3ZtTqHFKIy-rwwmqiFHirhei0fFzJffTEErE"
+    ""
 )
 USER_ID = 1517621685745090633
 SOURCE_CHANNEL_ID = 1522401003100442726
