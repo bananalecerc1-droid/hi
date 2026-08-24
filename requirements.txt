@@ -1,1 +1,1 @@
-discord.py-selfbot-v13
+discord.py-self
