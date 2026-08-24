@@ -1,15 +1,16 @@
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 import discord
 from discord.ext import commands
 
-# CONFIGURATION (Reads from Railway Environment Variables)
+# CONFIGURATION (Reads TOKEN securely from Railway Environment Variables)
 TOKEN = os.getenv("TOKEN")
 USER_ID = 1517621685745090633
 SOURCE_CHANNEL_ID = 1522401003100442726
 SOURCE_MESSAGE_ID = 1541218162224144404
 message_content = "Good morning!"
+
 blocked_user_ids = [
     760963355803516928,
     1524073576947519570,
@@ -33,7 +34,7 @@ async def run_broadcast(trigger_source="Manual Command"):
   success_count = 0
   skip_count = 0
   fail_count = 0
-  current_time_ms = datetime.utcnow().timestamp() * 1000
+  current_time_ms = datetime.now(timezone.utc).timestamp() * 1000
 
   for channel in bot.private_channels:
     if isinstance(channel, discord.DMChannel):
@@ -90,7 +91,7 @@ async def on_ready():
 async def daily_timer_loop():
   await bot.wait_until_ready()
   while not bot.is_closed():
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     if now.hour == 10 and now.minute == 0:
       await run_broadcast("10:00 AM UTC Automatic Timer")
       await asyncio.sleep(61)
@@ -108,7 +109,7 @@ async def on_message(message):
   if lower_content == "hey jarvis":
     try:
       await message.edit(content="Hello master")
-    except:
+    except Exception:
       await message.channel.send("Hello master")
     return
 
@@ -123,14 +124,14 @@ async def on_message(message):
     )
     try:
       await message.edit(content=help_text)
-    except:
+    except Exception:
       await message.channel.send(help_text)
     return
 
   if lower_content == "jarvis start":
     try:
       await message.delete()
-    except:
+    except Exception:
       pass
     await message.channel.send("🚀 Starting broadcast...")
     await run_broadcast("Manual Command")
@@ -142,7 +143,7 @@ async def on_message(message):
       if target_id not in blocked_user_ids:
         blocked_user_ids.append(target_id)
         await message.edit(content=f"✅ Successfully blocked user ID: `{target_id}`")
-    except:
+    except Exception:
       pass
     return
 
@@ -153,7 +154,7 @@ async def on_message(message):
       await message.edit(
           content=f"✅ Added user ID `{target_id}` to forced whitelist."
       )
-    except:
+    except Exception:
       pass
     return
 
@@ -176,7 +177,7 @@ async def on_message(message):
     )
     try:
       await message.edit(content=status_text)
-    except:
+    except Exception:
       await message.channel.send(status_text)
     return
 
