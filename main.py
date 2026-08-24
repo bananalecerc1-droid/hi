@@ -1,17 +1,15 @@
 import asyncio
 from datetime import datetime
+import os
 import discord
 from discord.ext import commands
 
-# CONFIGURATION
-TOKEN = (
-    ""
-)
+# CONFIGURATION (Reads from Railway Environment Variables)
+TOKEN = os.getenv("TOKEN")
 USER_ID = 1517621685745090633
 SOURCE_CHANNEL_ID = 1522401003100442726
 SOURCE_MESSAGE_ID = 1541218162224144404
 message_content = "Good morning!"
-
 blocked_user_ids = [
     760963355803516928,
     1524073576947519570,
